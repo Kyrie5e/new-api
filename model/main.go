@@ -342,6 +342,7 @@ func migrateDB() error {
 	err := DB.AutoMigrate(
 		&Channel{},
 		&Token{},
+		&ModelEvaluation{},
 		&User{},
 		&UserSession{},
 		&AuthFlow{},
