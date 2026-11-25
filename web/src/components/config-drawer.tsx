@@ -325,7 +325,8 @@ function FontConfig() {
   const { defaults, customization, setFont } = useThemeCustomization()
   const autoFont = resolveThemeFont('default', customization.preset)
   const autoFontFamily =
-    autoFont === 'serif' ? 'var(--font-serif)' : 'sans-serif'
+    FONT_OPTIONS.find((option) => option.value === autoFont)?.preview ??
+    'sans-serif'
   return (
     <div>
       <SectionTitle

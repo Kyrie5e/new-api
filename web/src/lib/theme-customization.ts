@@ -89,8 +89,7 @@ export type ContentLayout = 'full' | 'centered'
 /**
  * Font axis for the theme.
  *
- * - `default` — use the browser's sans-serif unless the active preset
- *   specifies its own font (Anthropic uses serif).
+ * - `default` — use the active preset's font or the browser's sans-serif.
  * - `sans` — explicitly use Public Sans.
  * - `serif` — use Lora + CJK fallbacks. Monospace contexts keep their
  *   own family via Tailwind preflight and `.font-mono`.
@@ -156,12 +155,12 @@ export const CONTENT_LAYOUT_VALUES: ReadonlySet<ContentLayout> = new Set([
  * Preset → default font mapping. Used by the provider to resolve the user's
  * `font: 'default'` preference against the active preset.
  *
- * Presets without a font override use the browser's sans-serif. Public
- * Sans is reserved for an explicit user choice.
+ * Presets without a font override use the browser's sans-serif.
  */
 export const PRESET_DEFAULT_FONT: Partial<
   Record<ThemePreset, ResolvedThemeFont>
 > = {
+  default: 'sans',
   anthropic: 'serif',
 }
 

@@ -20,12 +20,14 @@ import { useTranslation } from 'react-i18next'
 
 import { Dialog } from '@/components/dialog'
 import { RichContent } from '@/components/rich-content'
+import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { formatDateTimeObject } from '@/lib/time'
 
 interface AnnouncementDetailModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  onDismissReminder?: () => void
   announcement: {
     title?: string
     content?: string
@@ -38,6 +40,7 @@ interface AnnouncementDetailModalProps {
 export function AnnouncementDetailModal({
   open,
   onOpenChange,
+  onDismissReminder,
   announcement,
 }: AnnouncementDetailModalProps) {
   const { t } = useTranslation()
@@ -45,7 +48,9 @@ export function AnnouncementDetailModal({
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title={t('Announcement Details')}
+      title={
+        onDismissReminder ? t('Latest announcement') : t('Announcement Details')
+      }
       description={
         announcement?.publishDate
           ? `${t('Published:')} ${formatDateTimeObject(new Date(announcement.publishDate))}`
@@ -54,6 +59,17 @@ export function AnnouncementDetailModal({
       contentClassName='sm:max-w-lg'
       contentHeight='auto'
       bodyClassName='space-y-4'
+      showCloseButton={!onDismissReminder}
+      footer={
+        onDismissReminder && (
+          <>
+            <Button variant='outline' onClick={onDismissReminder}>
+              {t('Do not show this announcement again')}
+            </Button>
+            <Button onClick={() => onOpenChange(false)}>{t('Close')}</Button>
+          </>
+        )
+      }
     >
       <ScrollArea className='max-h-[min(58vh,520px)] pr-4'>
         <div className='space-y-4'>

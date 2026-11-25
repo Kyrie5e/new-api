@@ -125,3 +125,61 @@ it.each([
     expect(screen.getByPlaceholderText('Minimum 1')).toBeVisible()
   }
 )
+
+it.each([
+  { enabled: true, link: 'https://example.com/redeem', visible: true },
+  { enabled: true, link: undefined, visible: false },
+  { enabled: false, link: 'https://example.com/redeem', visible: false },
+])(
+  'offers the configured redemption-code link only when enabled and available ($enabled, $link)',
+  async ({ enabled, link, visible }) => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <RechargeFormCard
+          topupInfo={{
+            enable_online_topup: false,
+            enable_stripe_topup: false,
+            enable_redemption: enabled,
+            pay_methods: [],
+            min_topup: 1,
+            stripe_min_topup: 1,
+            amount_options: [],
+            discount: {},
+          }}
+          presetAmounts={[]}
+          selectedPreset={null}
+          topupAmount={1}
+          paymentAmount={1}
+          calculating={false}
+          paymentLoading={null}
+          redemptionCode=''
+          redeeming={false}
+          topupLink={link}
+          onSelectPreset={vi.fn()}
+          onTopupAmountChange={vi.fn()}
+          onPaymentMethodSelect={vi.fn()}
+          onRedemptionCodeChange={vi.fn()}
+          onRedeem={vi.fn()}
+        />
+      </I18nextProvider>
+    )
+
+    const entry = screen.queryByRole('link', { name: '获取兑换码' })
+    if (!visible) {
+      expect(entry).not.toBeInTheDocument()
+      return
+    }
+
+    expect(entry).toBeVisible()
+    expect(entry).toHaveAttribute('href', link)
+    expect(entry).toHaveAttribute('target', '_blank')
+    const input = screen.getByRole('textbox', { name: '有兑换码吗？' })
+    expect(entry?.compareDocumentPosition(input)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING
+    )
+    await act(() => i18n.changeLanguage('en'))
+    expect(
+      screen.getByRole('link', { name: 'Get a redemption code' })
+    ).toBeVisible()
+  }
+)

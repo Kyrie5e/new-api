@@ -61,16 +61,6 @@ func SetApiRouter(router *gin.Engine) {
 		apiRouter.GET("/oauth/:provider", middleware.CriticalRateLimit(), middleware.DisableCache(), middleware.TryUserAuth(), controller.HandleOAuth)
 		apiRouter.GET("/ratio_config", middleware.CriticalRateLimit(), controller.GetRatioConfig)
 
-		evaluations := apiRouter.Group("/evaluations", middleware.DisableCache(), middleware.UserAuth())
-		{
-			evaluations.GET("/questions", controller.GetEvaluationQuestions)
-			evaluations.GET("/models", controller.GetEvaluationModels)
-			evaluations.GET("/runs", controller.ListModelEvaluationHistory)
-			evaluations.GET("/runs/:id", controller.GetModelEvaluationReport)
-			evaluations.POST("/runs", middleware.CriticalRateLimit(), controller.StartModelEvaluation)
-			evaluations.POST("/runs/:id/rating", middleware.CriticalRateLimit(), controller.RateModelEvaluation)
-		}
-
 		apiRouter.POST("/stripe/webhook", anonymousRequestBodyLimit, controller.StripeWebhook)
 		apiRouter.POST("/creem/webhook", anonymousRequestBodyLimit, controller.CreemWebhook)
 		apiRouter.POST("/waffo/webhook", anonymousRequestBodyLimit, controller.WaffoWebhook)
