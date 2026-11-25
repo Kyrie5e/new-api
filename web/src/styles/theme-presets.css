@@ -680,6 +680,23 @@ For commercial licensing, please contact support@quantumnous.com
   letter-spacing: -0.02em;
 }
 
+/* ── Natural-wellness default typography ──────────────────────────────────
+ * The default look (repainted to sage/cream in theme.css) pairs a Public Sans
+ * body with editorial Lora headings. Scoped to `body:not([data-theme-preset])`
+ * so it applies only to the default look — named presets keep their own type.
+ * A user who explicitly picks the serif Font axis already gets serif
+ * everywhere via the block above, so this rule is only additive for the
+ * out-of-the-box sans body. */
+body:not([data-theme-preset]) :is(h1, h2, h3),
+body:not([data-theme-preset]) [data-slot='card-title'],
+body:not([data-theme-preset]) [data-slot='dialog-title'],
+body:not([data-theme-preset]) [data-slot='sheet-title'],
+body:not([data-theme-preset]) [data-slot='alert-dialog-title'],
+body:not([data-theme-preset]) [data-slot='drawer-title'] {
+  font-family: var(--font-serif);
+  letter-spacing: -0.012em;
+}
+
 /* ── Border radius ────────────────────────────────────────────────────── */
 [data-theme-radius='none'] {
   --radius: 0rem;

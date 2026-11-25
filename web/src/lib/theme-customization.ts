@@ -25,9 +25,11 @@ For commercial licensing, please contact support@quantumnous.com
 
 export const THEME_PRESETS = [
   {
+    // Repainted default look: sage green on warm cream (natural-wellness).
+    // Swatches preview the cream canvas → sage accent pairing.
     value: 'default',
-    name: 'Default',
-    swatches: ['oklch(0.72 0.18 250)', 'oklch(0.7 0.12 280)'],
+    name: 'Natural Wellness',
+    swatches: ['oklch(0.9725 0.0067 97.35)', 'oklch(0.5897 0.0717 154.45)'],
   },
   {
     // Inspired by Anthropic's official brand language: warm cream canvas
